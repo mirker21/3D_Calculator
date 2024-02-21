@@ -2,14 +2,82 @@ import { useState } from "react";
 
 export default function Calculator() {
     const [firstNum, setFirstNum] = useState('0');
-    const [buttonPressed, setButtonPressed] = useState();
+    const [currentOperator, setCurrentOperator] = useState('');
     const [secondNum, setSecondNum] = useState();
     const [currentMemory, setCurrentMemory] = useState();
     const [currentResult, setCurrentResult] = useState(0);
 
     function handleButtonClick(event) {
         switch (event.target.value) {
-
+            case('MR'):
+                break;
+            
+            case('M+'):
+                break;
+            
+            case('M-'):
+                break;
+            
+            case('MC'):
+                break;
+            
+            case('AC'):
+                break;
+            
+            case('√'):
+                break;
+            
+            case('CE'):
+                break;
+            
+            case('&times;'):
+                break;
+            
+            case('÷'):
+                break;
+            
+            case('-'):
+                break;
+            
+            case('+'):
+                break;
+            
+            case('='):
+                break;
+            
+            case('.'):
+                break;
+            
+            case('0'):
+                break;
+            
+            case('1'):
+                break;
+            
+            case('2'):
+                break;
+            
+            case('3'):
+                break;
+            
+            case('4'):
+                break;
+            
+            case('5'):
+                break;
+            
+            case('6'):
+                break;
+            
+            case('7'):
+                break;
+            
+            case('8'):
+                break;
+            
+            case('9'):
+                break;
+            
         }
     }
 
@@ -32,8 +100,10 @@ export default function Calculator() {
 
     }
 
-    function Calculate() {
 
+
+    function Calculate() {
+        // √
     }
 
     return (
@@ -41,44 +111,45 @@ export default function Calculator() {
             <section id="display">
                 <p>{currentMemory}</p>
                 <input type="text" pattern="/\d*/" onChange={handleChange} value={firstNum} />
+                <p>{currentOperator}</p>
             </section>
 
             <section>
-                <button>MR</button>
-                <button>M+</button>
-                <button>M-</button>
-                <button>MC</button>
-                <button>AC</button>
+                <button aria-label="memory-recall">MR</button>
+                <button aria-label="memory-add">M+</button>
+                <button aria-label="memory-subtract">M-</button>
+                <button aria-label="memory-clear">MC</button>
+                <button aria-label="all-clear">AC</button>
             </section>
 
             <section>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>&#x221A;</button>
-                <button>CE</button>
+                <button aria-label="7">7</button>
+                <button aria-label="8">8</button>
+                <button aria-label="9">9</button>
+                <button aria-label="square-root">√</button>
+                <button aria-label="clear-entry">CE</button>
             </section>
 
             <section>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>&times;</button>
-                <button>÷</button>
+                <button aria-label="4">4</button>
+                <button aria-label="5">5</button>
+                <button aria-label="6">6</button>
+                <button aria-label="multiply">&times;</button>
+                <button aria-label="divide">÷</button>
             </section>
 
             <section>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>-</button>
-                <button>+</button>
+                <button aria-label="1">1</button>
+                <button aria-label="2">2</button>
+                <button aria-label="3">3</button>
+                <button aria-label="negative-or-subtract">-</button>
+                <button aria-label="add">+</button>
             </section>
 
             <section>
-                <button>.</button>
-                <button>0</button>
-                <button id="equals">=</button>
+                <button aria-label="decimal">.</button>
+                <button aria-label="0">0</button>
+                <button aria-label="" id="equals">=</button>
             </section>
         </div>
     )
