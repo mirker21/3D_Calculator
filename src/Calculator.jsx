@@ -10,6 +10,8 @@ export default function Calculator() {
     function handleButtonClick(event) {
         switch (event.target.value) {
             case('MR'):
+
+                if (firstNum.length > 0 && currentOperator.length > 0 && secondNum.length > 0)
                 break;
             
             case('M+'):
@@ -100,11 +102,16 @@ export default function Calculator() {
 
     }
 
-
-
-    function Calculate() {
-        // √
+    function Calculate(firstNum, secondNum, currentOperator) {
+        
+        if (secondNum.length === 0 && currentOperator.length === 0) {
+            setCurrentResult(firstNum)
+        } else if (currentOperator === '√') {
+            setCurrentResult(Math.sqrt(firstNum))
+        }
     }
+
+    //add highlighted buttons that are active
 
     return (
         <div id="calculator-container">
