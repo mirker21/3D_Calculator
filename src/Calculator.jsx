@@ -10,7 +10,7 @@ export default function Calculator() {
     function handleButtonClick(event) {
         let calculatedResult;
 
-        switch (event.target.value) {
+        switch (event.target.textContent) {
             case('MR'):
                 calculatedResult = calculate(firstNum, secondNum, currentOperator);
                 setCurrentMemory(calculatedResult);
@@ -44,7 +44,7 @@ export default function Calculator() {
                 break;
             
             case('CE'):
-                setFirstNum('');
+                setFirstNum('0');
                 setCurrentOperator('');
                 setSecondNum('');
                 break;
@@ -60,6 +60,9 @@ export default function Calculator() {
                 break;
             
             case('-'):
+                if (firstNum.length === 0) {
+                    
+                }
                 setCurrentOperator('-');
                 setSecondNum('0');
                 break;
@@ -75,47 +78,88 @@ export default function Calculator() {
                 break;
             
             case('.'):
-                setFirstNum(firstNum + '.');
+                calculatedResult = firstNum + '.';
+                setFirstNum(calculatedResult);
                 break;
             
             case('0'):
-                setFirstNum(firstNum + '0');
+                calculatedResult = firstNum + '0';
+                if (calculatedResult.length > 1 && [...calculatedResult].every(num => num === '0')) {
+                    calculatedResult = calculatedResult.slice(0, 1);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('1'):
-                setFirstNum(firstNum + '1');
+                calculatedResult = firstNum + '1';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('2'):
-                setFirstNum(firstNum + '2');
+                calculatedResult = firstNum + '2';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('3'):
-                setFirstNum(firstNum + '3');
+                calculatedResult = firstNum + '3';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('4'):
-                setFirstNum(firstNum + '4');
+                calculatedResult = firstNum + '4';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('5'):
-                setFirstNum(firstNum + '5');
+                calculatedResult = firstNum + '5';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('6'):
-                setFirstNum(firstNum + '6');
+                calculatedResult = firstNum + '6';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('7'):
-                setFirstNum(firstNum + '7');
+                calculatedResult = firstNum + '7';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('8'):
-                setFirstNum(firstNum + '8');
+                calculatedResult = firstNum + '8';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
             case('9'):
-                setFirstNum(firstNum + '9');
+                calculatedResult = firstNum + '9';
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
+                }
+                setFirstNum(calculatedResult);
                 break;
             
         }
@@ -177,13 +221,13 @@ export default function Calculator() {
         display = secondNum;
     }
 
-    //add highlighted buttons that are active
-    //clear currentOperator and secondNum
+    // worry about negative numbers and not using symbols
+    // if somebody presses too many symbols
 
     return (
         <div id="calculator-container">
             <section id="display">
-                <p>{currentMemory}</p>
+                <p>{currentMemory.length > 0 ? 'M' : ''}</p>
                 {
                     secondNum.length > 0
                     ?
@@ -191,45 +235,44 @@ export default function Calculator() {
                     :
                     <input type="text" pattern="/\d*/" onChange={handleChange} value={firstNum} />
                 }
-                <p>{currentOperator}</p>
             </section>
 
             <section>
-                <button aria-label="memory-recall">MR</button>
-                <button aria-label="memory-add">M+</button>
-                <button aria-label="memory-subtract">M-</button>
-                <button aria-label="memory-clear">MC</button>
-                <button aria-label="all-clear">AC</button>
+                <button aria-label="memory-recall" onClick={handleButtonClick}>MR</button>
+                <button aria-label="memory-add" onClick={handleButtonClick}>M+</button>
+                <button aria-label="memory-subtract" onClick={handleButtonClick}>M-</button>
+                <button aria-label="memory-clear" onClick={handleButtonClick}>MC</button>
+                <button aria-label="all-clear" onClick={handleButtonClick}>AC</button>
             </section>
 
             <section>
-                <button aria-label="7">7</button>
-                <button aria-label="8">8</button>
-                <button aria-label="9">9</button>
-                <button aria-label="square-root">√</button>
-                <button aria-label="clear-entry">CE</button>
+                <button aria-label="7" onClick={handleButtonClick}>7</button>
+                <button aria-label="8" onClick={handleButtonClick}>8</button>
+                <button aria-label="9" onClick={handleButtonClick}>9</button>
+                <button aria-label="square-root" onClick={handleButtonClick} className={currentOperator === '√' ? "current" : ""}>√</button>
+                <button aria-label="clear-entry" onClick={handleButtonClick}>CE</button>
             </section>
 
             <section>
-                <button aria-label="4">4</button>
-                <button aria-label="5">5</button>
-                <button aria-label="6">6</button>
-                <button aria-label="multiply">×</button>
-                <button aria-label="divide">÷</button>
+                <button aria-label="4" onClick={handleButtonClick}>4</button>
+                <button aria-label="5" onClick={handleButtonClick}>5</button>
+                <button aria-label="6" onClick={handleButtonClick}>6</button>
+                <button aria-label="multiply" onClick={handleButtonClick} className={currentOperator === '×' ? "current" : ""}>×</button>
+                <button aria-label="divide" onClick={handleButtonClick} className={currentOperator === '÷' ? "current" : ""}>÷</button>
             </section>
 
             <section>
-                <button aria-label="1">1</button>
-                <button aria-label="2">2</button>
-                <button aria-label="3">3</button>
-                <button aria-label="negative-or-subtract">-</button>
-                <button aria-label="add">+</button>
+                <button aria-label="1" onClick={handleButtonClick}>1</button>
+                <button aria-label="2" onClick={handleButtonClick}>2</button>
+                <button aria-label="3" onClick={handleButtonClick}>3</button>
+                <button aria-label="negative-or-subtract" onClick={handleButtonClick} className={currentOperator === '-' ? "current" : ""}>-</button>
+                <button aria-label="add" onClick={handleButtonClick} className={currentOperator === '+' ? "current" : ""}>+</button>
             </section>
 
             <section>
-                <button aria-label="decimal">.</button>
-                <button aria-label="0">0</button>
-                <button aria-label="" id="equals">=</button>
+                <button aria-label="decimal" onClick={handleButtonClick}>.</button>
+                <button aria-label="0" onClick={handleButtonClick}>0</button>
+                <button aria-label="" id="equals" onClick={handleButtonClick}>=</button>
             </section>
         </div>
     )
