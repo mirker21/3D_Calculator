@@ -9,6 +9,7 @@ export default function Calculator() {
 
     function handleButtonClick(event) {
         let calculatedResult;
+        console.log(event.target.textContent)
 
         switch (event.target.textContent) {
             case('MR'):
@@ -60,11 +61,12 @@ export default function Calculator() {
                 break;
             
             case('-'):
-                if (firstNum.length === 0) {
-                    
+                if (firstNum.length === 1 && (firstNum[0] === '0' || firstNum[0] === '-')) {
+                    setFirstNum('-')
+                } else {
+                    setCurrentOperator('-');
+                    setSecondNum('0');
                 }
-                setCurrentOperator('-');
-                setSecondNum('0');
                 break;
             
             case('+'):
@@ -84,6 +86,7 @@ export default function Calculator() {
             
             case('0'):
                 calculatedResult = firstNum + '0';
+                // check for negative
                 if (calculatedResult.length > 1 && [...calculatedResult].every(num => num === '0')) {
                     calculatedResult = calculatedResult.slice(0, 1);
                 }
@@ -165,6 +168,8 @@ export default function Calculator() {
         }
     }
 
+    console.log(firstNum)
+
     function handleChange(event) {
 
         let revisedValue = event.target.value;
@@ -185,6 +190,8 @@ export default function Calculator() {
     }
 
     function calculate(firstNum, secondNum, currentOperator) {
+
+        console.log(firstNum, secondNum, currentOperator)
         
         if (currentOperator.length === 0 && secondNum.length === 0) {
             setFirstNum(firstNum)
