@@ -47,6 +47,9 @@ export default function Calculator() {
 
             case('←'):
                 calculatedResult = input.slice(0, -1);
+                if (calculatedResult.length === 0) {
+                    calculatedResult = '0';
+                }
                 setInput(calculatedResult)
                 break;
             
