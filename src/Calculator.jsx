@@ -144,7 +144,7 @@ export default function Calculator() {
                 break;
             
             case('1'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '1';
                 } else {
                     calculatedResult = input + '1';
@@ -153,7 +153,7 @@ export default function Calculator() {
                 break;
             
             case('2'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '2';
                 } else {
                     calculatedResult = input + '2';
@@ -162,7 +162,7 @@ export default function Calculator() {
                 break;
             
             case('3'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '3';
                 } else {
                     calculatedResult = input + '3';
@@ -171,7 +171,7 @@ export default function Calculator() {
                 break;
             
             case('4'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '4';
                 } else {
                     calculatedResult = input + '4';
@@ -180,7 +180,7 @@ export default function Calculator() {
                 break;
             
             case('5'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '5';
                 } else {
                     calculatedResult = input + '5';
@@ -189,7 +189,7 @@ export default function Calculator() {
                 break;
             
             case('6'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '6';
                 } else {
                     calculatedResult = input + '6';
@@ -198,7 +198,7 @@ export default function Calculator() {
                 break;
             
             case('7'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '7';
                 } else {
                     calculatedResult = input + '7';
@@ -207,7 +207,7 @@ export default function Calculator() {
                 break;
             
             case('8'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '8';
                 } else {
                     calculatedResult = input + '8';
@@ -216,7 +216,7 @@ export default function Calculator() {
                 break;
             
             case('9'):
-                if (input === '0' || input[0] === '0') {
+                if (input === '0' || (input.length < 2 && input[0] === '0')) {
                     calculatedResult = '9';
                 } else {
                     calculatedResult = input + '9';
