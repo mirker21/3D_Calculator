@@ -325,10 +325,6 @@ export default function Calculator() {
         
     }
 
-    // worry about negative numbers and not using symbols
-    // if somebody presses too many symbols
-    console.log(message)
-
     return (
         <div id="calculator-container">
             {message}
