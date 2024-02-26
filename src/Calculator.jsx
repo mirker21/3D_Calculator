@@ -1,29 +1,25 @@
 import { useState } from "react";
 
 export default function Calculator() {
-    const [firstNum, setFirstNum] = useState('0');
-    const [currentOperator, setCurrentOperator] = useState('');
-    const [secondNum, setSecondNum] = useState('');
+    const [input, setInput] = useState('0');
     const [currentMemory, setCurrentMemory] = useState('');
     // const [display, setDisplay] = useState(0);
 
     function handleButtonClick(event) {
         let calculatedResult;
-        console.log(event.target.textContent)
-
         switch (event.target.textContent) {
             case('MR'):
-                calculatedResult = calculate(firstNum, secondNum, currentOperator);
-                setCurrentMemory(calculatedResult);
+                calculatedResult = currentMemory;
+                setInput(calculatedResult);
                 break;
             
             case('M+'):
-                calculatedResult = calculate(firstNum, secondNum, currentOperator);
-                setCurrentMemory(Number(currentMemory) - Number(calculatedResult));
+                calculatedResult = calculate(input);
+                setCurrentMemory(Number(currentMemory) + Number(calculatedResult));
                 break;
             
             case('M-'):
-                calculatedResult = calculate(firstNum, secondNum, currentOperator);
+                calculatedResult = calculate(input);
                 setCurrentMemory(Number(currentMemory) - Number(calculatedResult));
                 break;
             
@@ -31,202 +27,265 @@ export default function Calculator() {
                 setCurrentMemory('');
                 break;
             
-            case('AC'):
-                setFirstNum('0');
-                setCurrentOperator('');
-                setSecondNum('');
-                setCurrentMemory('')
+            case('+/-'):
+                calculatedResult = input;
+                if (calculatedResult[0] === '-') {
+                    calculatedResult = calculatedResult.slice(1,); 
+                    if (calculatedResult === '') {
+                        calculatedResult = '0';
+                    }
+                } else if (calculatedResult === '0') {
+                    calculatedResult = '-';
+                } else {
+                    calculatedResult = '-' + calculatedResult;
+                }
+                setInput(calculatedResult);
                 break;
             
             case('√'):
-                setCurrentOperator('√');
-                calculatedResult = calculate(firstNum, secondNum, '√');
-                setFirstNum(calculatedResult);
+                calculatedResult = 
+                input 
+                + 
+                /[\+|\-|\/]/.test(input[input.length - 1]) === true
+                ?
+                'sqrt()'
+                :
+                '*' + 'sqrt()'
+                setInput(calculatedResult);
                 break;
             
             case('CE'):
-                setFirstNum('0');
-                setCurrentOperator('');
-                setSecondNum('');
+                setInput('0');
                 break;
             
             case('×'):
-                setCurrentOperator('×');
-                setSecondNum('0');
+                calculatedResult = input + '×'
+                setInput(calculatedResult)
                 break;
             
             case('÷'):
-                setCurrentOperator('÷');
-                setSecondNum('0');
+                calculatedResult = input + '÷'
+                setInput(calculatedResult)
                 break;
             
             case('-'):
-                if (firstNum.length === 1 && (firstNum[0] === '0' || firstNum[0] === '-')) {
-                    setFirstNum('-')
-                } else {
-                    setCurrentOperator('-');
-                    setSecondNum('0');
-                }
+                calculatedResult = input + '-';
+                setInput(calculatedResult)
                 break;
             
             case('+'):
-                setCurrentOperator('+');
-                setSecondNum('0');
+                calculatedResult = input + '+'
+                setInput(calculatedResult)
                 break;
             
             case('='):
-                calculatedResult = calculate(firstNum, secondNum, currentOperator);
-                setFirstNum(calculatedResult);
+                calculatedResult = calculate(input)
+                setInput(calculatedResult)
                 break;
             
             case('.'):
-                calculatedResult = firstNum + '.';
-                setFirstNum(calculatedResult);
+                calculatedResult = input + '.';
+                if (
+                    calculatedResult.match(/\./g) === null 
+                    || 
+                    calculatedResult.match(/\./g).length <= 1
+                ) {
+                    setInput(calculatedResult);
+                }
+                break;
+            
+            case('('):
+                calculatedResult = input + '(';
+                setInput(calculatedResult);
+                break;
+            
+            case(')'):
+                calculatedResult = input + ')';
+                setInput(calculatedResult);
                 break;
             
             case('0'):
-                calculatedResult = firstNum + '0';
+                calculatedResult = input + '0';
                 // check for negative
-                if (calculatedResult.length > 1 && [...calculatedResult].every(num => num === '0')) {
-                    calculatedResult = calculatedResult.slice(0, 1);
+                if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
+                    calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('1'):
-                calculatedResult = firstNum + '1';
+                calculatedResult = input + '1';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('2'):
-                calculatedResult = firstNum + '2';
+                calculatedResult = input + '2';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('3'):
-                calculatedResult = firstNum + '3';
+                calculatedResult = input + '3';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('4'):
-                calculatedResult = firstNum + '4';
+                calculatedResult = input + '4';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('5'):
-                calculatedResult = firstNum + '5';
+                calculatedResult = input + '5';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('6'):
-                calculatedResult = firstNum + '6';
+                calculatedResult = input + '6';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('7'):
-                calculatedResult = firstNum + '7';
+                calculatedResult = input + '7';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('8'):
-                calculatedResult = firstNum + '8';
+                calculatedResult = input + '8';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
             case('9'):
-                calculatedResult = firstNum + '9';
+                calculatedResult = input + '9';
                 if (calculatedResult.length > 1 && calculatedResult[0] === '0') {
                     calculatedResult = calculatedResult.slice(1,);
                 }
-                setFirstNum(calculatedResult);
+                setInput(calculatedResult);
                 break;
             
         }
     }
 
-    console.log(firstNum)
+    // function handleChange(event) {
 
-    function handleChange(event) {
-
-        let revisedValue = event.target.value;
-
-        if (revisedValue === '') {
-            revisedValue = '0';
-        } else if (revisedValue.length > 1 && revisedValue[0] === '0') {
-            revisedValue = revisedValue.slice(1,);
-        }
-
-        let decimalCheck = revisedValue.match(/\./g) === null || revisedValue.match(/\./g).length <= 1;
-        let digitCheck = [...revisedValue].every(letter => /[0-9]/.test(letter) === true || /\./.test(letter) === true);
-
-        if (decimalCheck === true && digitCheck === true) {
-            setFirstNum(revisedValue)
-        }
-
-    }
-
-    function calculate(firstNum, secondNum, currentOperator) {
-
-        console.log(firstNum, secondNum, currentOperator)
+    //     let revisedValue = event.target.value;
         
-        if (currentOperator.length === 0 && secondNum.length === 0) {
-            setFirstNum(firstNum)
-        } else if (currentOperator === '√') {
-            setFirstNum(Math.sqrt(Number(firstNum)))
-        } else if (currentOperator !== '√' && secondNum.length > 0) {
-            switch (currentOperator) {
+    //     if (revisedValue === '') {
+    //         revisedValue = '0';
+    //     } else if (revisedValue.length > 1 && revisedValue[0] === '0') {
+    //         revisedValue = revisedValue.slice(1,);
+    //     }
 
-                case '+' :
-                    setFirstNum(Number(firstNum) + Number(secondNum));
-                    break;
+    //     // let decimalCheck = revisedValue.match(/\./g) === null || revisedValue.match(/\./g).length <= 1;
+    //     // let digitCheck = [...revisedValue].every(letter => /[0-9]/.test(letter) === true || /\./.test(letter) === true);
+    //     // const check = [...revisedValue]
+    //     // .every(char => {
+    //     //     /[0-9]/.test(letter) === true 
+    //     //     || 
+    //     //     /\./.test(letter) === true
+    //     //     ||
+    //     //     /\(|\)/.test(letter) === true
+    //     // });
 
-                case '-' :
-                    setFirstNum(Number(firstNum) - Number(secondNum));
-                    break;
+    //     setInput(revisedValue) 
 
-                case '×' :
-                    setFirstNum(Number(firstNum) * Number(secondNum));
-                    break;
+    // }
 
-                case '÷' :
-                    setFirstNum(Number(firstNum) * Number(secondNum));
-                    break;
+    function calculate(input) {
 
-            }
+        let result = input;
+
+        if (/(\d|\))/.test(result[result.length - 1]) === false) {
+            result = result.slice(0, -1)
         }
+
+        //eliminate extra parentheses
+
+        // add multiplication signs to 
+        let indexOpenParens = result.match(/(\d\()/)
+        let indexClosedParens = result.match(/(\)\d)/)
+        while (indexOpenParens !== null || indexClosedParens !== null) {
+            result = indexOpenParens !== null 
+            ? 
+            result.slice(0, indexOpenParens.index + 1) + '*' + result.slice(indexOpenParens.index + 1,) 
+            : 
+            result;
+            
+            result = indexClosedParens !== null 
+            ? 
+            result.slice(0, indexClosedParens.index + 2) + '*' + result.slice(indexClosedParens.index + 2,) 
+            : 
+            result;
+            indexOpenParens = result.match(/(\d\()/);
+            indexClosedParens = result.match(/(\)\d)/);
+        }
+
+        result = result.replace('()', '(0)');
+        result = result.replace('×', '*');
+        result = result.replace('÷', '/');
+        // huge thanks to https://stackoverflow.com/a/18082175/18628118 for this function!
+        function calcResult(result) {
+            return new Function('return ' + result)();
+        }
+        result = calcResult(result);
+
+        console.log(result)
+        return '' + result;
+
+        //check for numbers next to parentheses
+
+        
+        // if (currentOperator.length === 0 && secondNum.length === 0) {
+        //     setFirstNum(firstNum)
+        // } else if (currentOperator === '√') {
+        //     setFirstNum(Math.sqrt(Number(firstNum)))
+        // } else if (currentOperator !== '√' && secondNum.length > 0) {
+        //     switch (currentOperator) {
+
+        //         case '+' :
+        //             setFirstNum(Number(firstNum) + Number(secondNum));
+        //             break;
+
+        //         case '-' :
+        //             setFirstNum(Number(firstNum) - Number(secondNum));
+        //             break;
+
+        //         case '×' :
+        //             setFirstNum(Number(firstNum) * Number(secondNum));
+        //             break;
+
+        //         case '÷' :
+        //             setFirstNum(Number(firstNum) * Number(secondNum));
+        //             break;
+
+        //     }
+        // }
+        
     }
 
-    let display = '';
-
-    if (secondNum.length > 0) {
-        display = firstNum;
-    } else {
-        display = secondNum;
-    }
+    console.log(input)
 
     // worry about negative numbers and not using symbols
     // if somebody presses too many symbols
@@ -234,14 +293,7 @@ export default function Calculator() {
     return (
         <div id="calculator-container">
             <section id="display">
-                <p>{currentMemory.length > 0 ? 'M' : ''}</p>
-                {
-                    secondNum.length > 0
-                    ?
-                    <input type="text" pattern="/\d*/" onChange={handleChange} value={secondNum} />
-                    :
-                    <input type="text" pattern="/\d*/" onChange={handleChange} value={firstNum} />
-                }
+            {input}
             </section>
 
             <section>
@@ -249,37 +301,39 @@ export default function Calculator() {
                 <button aria-label="memory-add" onClick={handleButtonClick}>M+</button>
                 <button aria-label="memory-subtract" onClick={handleButtonClick}>M-</button>
                 <button aria-label="memory-clear" onClick={handleButtonClick}>MC</button>
-                <button aria-label="all-clear" onClick={handleButtonClick}>AC</button>
+                <button aria-label="all-clear" onClick={handleButtonClick}>CE</button>
             </section>
 
             <section>
                 <button aria-label="7" onClick={handleButtonClick}>7</button>
                 <button aria-label="8" onClick={handleButtonClick}>8</button>
                 <button aria-label="9" onClick={handleButtonClick}>9</button>
-                <button aria-label="square-root" onClick={handleButtonClick} className={currentOperator === '√' ? "current" : ""}>√</button>
-                <button aria-label="clear-entry" onClick={handleButtonClick}>CE</button>
+                <button aria-label="square-root" onClick={handleButtonClick}>√</button>
+                <button aria-label="clear-entry" onClick={handleButtonClick}>+/-</button>
             </section>
 
             <section>
                 <button aria-label="4" onClick={handleButtonClick}>4</button>
                 <button aria-label="5" onClick={handleButtonClick}>5</button>
                 <button aria-label="6" onClick={handleButtonClick}>6</button>
-                <button aria-label="multiply" onClick={handleButtonClick} className={currentOperator === '×' ? "current" : ""}>×</button>
-                <button aria-label="divide" onClick={handleButtonClick} className={currentOperator === '÷' ? "current" : ""}>÷</button>
+                <button aria-label="multiply" onClick={handleButtonClick}>×</button>
+                <button aria-label="divide" onClick={handleButtonClick}>÷</button>
             </section>
 
             <section>
                 <button aria-label="1" onClick={handleButtonClick}>1</button>
                 <button aria-label="2" onClick={handleButtonClick}>2</button>
                 <button aria-label="3" onClick={handleButtonClick}>3</button>
-                <button aria-label="negative-or-subtract" onClick={handleButtonClick} className={currentOperator === '-' ? "current" : ""}>-</button>
-                <button aria-label="add" onClick={handleButtonClick} className={currentOperator === '+' ? "current" : ""}>+</button>
+                <button aria-label="negative-or-subtract" onClick={handleButtonClick}>-</button>
+                <button aria-label="add" onClick={handleButtonClick}>+</button>
             </section>
 
             <section>
                 <button aria-label="decimal" onClick={handleButtonClick}>.</button>
                 <button aria-label="0" onClick={handleButtonClick}>0</button>
-                <button aria-label="" id="equals" onClick={handleButtonClick}>=</button>
+                <button aria-label="equals" onClick={handleButtonClick}>=</button>
+                <button aria-label="open-parenthesis" onClick={handleButtonClick}>(</button>
+                <button aria-label="closed-parenthesis" onClick={handleButtonClick}>)</button>
             </section>
         </div>
     )
