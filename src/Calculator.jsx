@@ -43,14 +43,11 @@ export default function Calculator() {
                 break;
             
             case('√'):
-                calculatedResult = 
-                input 
-                + 
-                /[\+|\-|\/]/.test(input[input.length - 1]) === true
-                ?
-                'sqrt()'
-                :
-                '*' + 'sqrt()'
+                if (input === '0') {
+                    calculatedResult = 'sqrt(';
+                } else {
+                    calculatedResult = input + 'sqrt(';
+                }
                 setInput(calculatedResult);
                 break;
             
@@ -59,23 +56,31 @@ export default function Calculator() {
                 break;
             
             case('×'):
-                calculatedResult = input + '×'
-                setInput(calculatedResult)
+                if (/(\(|\×|\÷|\-|\+)/.test(input[input.length - 1]) === false) {
+                    calculatedResult = input + '×'
+                    setInput(calculatedResult)
+                }
                 break;
             
             case('÷'):
-                calculatedResult = input + '÷'
-                setInput(calculatedResult)
+                if (/(\(|\×|\÷|\-|\+)/.test(input[input.length - 1]) === false) {
+                    calculatedResult = input + '÷'
+                    setInput(calculatedResult)
+                }
                 break;
             
             case('-'):
-                calculatedResult = input + '-';
-                setInput(calculatedResult)
+                if (/(\(|\×|\÷|\-|\+)/.test(input[input.length - 1]) === false) {
+                    calculatedResult = input + '-';
+                    setInput(calculatedResult)
+                }
                 break;
             
             case('+'):
-                calculatedResult = input + '+'
-                setInput(calculatedResult)
+                if (/(\(|\×|\÷|\-|\+)/.test(input[input.length - 1]) === false) {
+                    calculatedResult = input + '+'
+                    setInput(calculatedResult)
+                }
                 break;
             
             case('='):
@@ -95,13 +100,31 @@ export default function Calculator() {
                 break;
             
             case('('):
-                calculatedResult = input + '(';
+                if (input === '0') {
+                    calculatedResult = '(';
+                } else {
+                    calculatedResult = input + '(';
+                }
                 setInput(calculatedResult);
                 break;
             
             case(')'):
-                calculatedResult = input + ')';
-                setInput(calculatedResult);
+                let openParensCount = input.match(/\(/g) !== null 
+                ? 
+                input.match(/\(/g).length 
+                : 
+                0;
+
+                let closedParensCount = input.match(/\)/g) !== null 
+                ? 
+                input.match(/\)/g).length 
+                : 
+                0;
+
+                if (openParensCount > closedParensCount) {
+                    calculatedResult = input + ')';
+                    setInput(calculatedResult);
+                }
                 break;
             
             case('0'):
@@ -217,75 +240,70 @@ export default function Calculator() {
 
         let result = input;
 
+        // to ensure the equation doesn't end with any operators
         if (/(\d|\))/.test(result[result.length - 1]) === false) {
             result = result.slice(0, -1)
         }
+         
+        let indexNumberAgainstOpenParens = result.match(/(\d\()/)
+        let indexNumberAgainstClosedParens = result.match(/(\)\d)/)
+        let indexNumberAgainstSqrt = result.match(/\dsqrt/)
 
-        //eliminate extra parentheses
+        // now replace sqrt with *sqrt
+        // what about multiple symbols put together?
+        // sqrt times sqrt
 
-        // add multiplication signs to 
-        let indexOpenParens = result.match(/(\d\()/)
-        let indexClosedParens = result.match(/(\)\d)/)
-        while (indexOpenParens !== null || indexClosedParens !== null) {
-            result = indexOpenParens !== null 
+        while (
+            indexNumberAgainstOpenParens !== null 
+            || 
+            indexNumberAgainstClosedParens !== null
+            ||
+            indexNumberAgainstSqrt !== null
+        ) {
+            result = indexNumberAgainstOpenParens !== null 
             ? 
-            result.slice(0, indexOpenParens.index + 1) + '*' + result.slice(indexOpenParens.index + 1,) 
+            result.slice(0, indexNumberAgainstOpenParens.index + 1) + '*' + result.slice(indexNumberAgainstOpenParens.index + 1,) 
             : 
             result;
             
-            result = indexClosedParens !== null 
+            result = indexNumberAgainstClosedParens !== null 
             ? 
-            result.slice(0, indexClosedParens.index + 2) + '*' + result.slice(indexClosedParens.index + 2,) 
+            result.slice(0, indexNumberAgainstClosedParens.index + 2) + '*' + result.slice(indexNumberAgainstClosedParens.index + 2,) 
             : 
             result;
-            indexOpenParens = result.match(/(\d\()/);
-            indexClosedParens = result.match(/(\)\d)/);
-        }
 
+            result = indexNumberAgainstSqrt !== null
+            ?
+            result.slice(0, indexNumberAgainstSqrt.index + 1) + '*' + result.slice(indexNumberAgainstSqrt.index + 1,)
+            :
+            result; 
+
+            indexNumberAgainstOpenParens = result.match(/(\d\()/);
+            indexNumberAgainstClosedParens = result.match(/(\)\d)/);
+            indexNumberAgainstSqrt = result.match(/\dsqrt/)
+        }
+        
+        console.log('1', result)
+
+        result = result.replaceAll(')(', ')*('); 
+        result = result.match(/-+/) !== null && result.match(/-+/)[0].length % 2 === 0 ? result.replace(/-+/, '+') : result.replace(/-+/, '-');
         result = result.replace('()', '(0)');
         result = result.replace('×', '*');
         result = result.replace('÷', '/');
-        // huge thanks to https://stackoverflow.com/a/18082175/18628118 for this function!
+        result = result.replace('sqrt', 'Math.sqrt');
+
+        console.log('2', result)
+
+        // huge thanks to https://stackoverflow.com/a/18082175/18628118 for this alternative to eval()!
         function calcResult(result) {
             return new Function('return ' + result)();
         }
         result = calcResult(result);
 
-        console.log(result)
+        console.log('3', result)
         return '' + result;
-
-        //check for numbers next to parentheses
-
-        
-        // if (currentOperator.length === 0 && secondNum.length === 0) {
-        //     setFirstNum(firstNum)
-        // } else if (currentOperator === '√') {
-        //     setFirstNum(Math.sqrt(Number(firstNum)))
-        // } else if (currentOperator !== '√' && secondNum.length > 0) {
-        //     switch (currentOperator) {
-
-        //         case '+' :
-        //             setFirstNum(Number(firstNum) + Number(secondNum));
-        //             break;
-
-        //         case '-' :
-        //             setFirstNum(Number(firstNum) - Number(secondNum));
-        //             break;
-
-        //         case '×' :
-        //             setFirstNum(Number(firstNum) * Number(secondNum));
-        //             break;
-
-        //         case '÷' :
-        //             setFirstNum(Number(firstNum) * Number(secondNum));
-        //             break;
-
-        //     }
-        // }
         
     }
-
-    console.log(input)
 
     // worry about negative numbers and not using symbols
     // if somebody presses too many symbols
