@@ -45,6 +45,15 @@ h1 {
   padding: 20px;
   margin: 5px;
 }
+
+#first-row {
+  width: 100%;
+}
+
+#first-row button {
+  width: 20%;
+}
+
 input {
   width: 88%;
   border-radius: 8px;
