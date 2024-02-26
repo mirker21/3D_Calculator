@@ -312,6 +312,10 @@ export default function Calculator() {
 
             result = calcResult(result);
 
+            if (result === NaN) {
+                throw new Error('oops!');
+            }
+
             return '' + result;
 
         } catch (error) {
