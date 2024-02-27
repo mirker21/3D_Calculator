@@ -315,7 +315,7 @@ export default function Calculator() {
 
             result = calcResult(result);
 
-            if (result === NaN) {
+            if (isNaN(result) === true) {
                 throw new Error('oops!');
             }
 
