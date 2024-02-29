@@ -5,12 +5,24 @@ Files: calculator_body.glb [56.37KB] > calculator_body-transformed.glb [6.51KB] 
 */
 
 import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, Html } from '@react-three/drei'
+import * as THREE from 'three';
 
 export default function CalculatorBody(props) {
   const { nodes, materials } = useGLTF('./3D_Assets/calculator_body-transformed.glb')
+
+  const displayPosition = new THREE.Vector3(0, .697, -3)
   return (
     <group {...props} dispose={null} position={[0, 0, 0]}>
+      <Html
+        position={displayPosition}
+        rotation={[-Math.PI/2, 0, 0]}
+        transform
+        occlude
+        // color="#003986"
+      >
+        <h2>0</h2>
+      </Html>
       <mesh geometry={nodes.Body.geometry} material={materials.Calculator_Body} />
       <mesh geometry={nodes.Screen.geometry} material={materials.Screen} />
       <mesh geometry={nodes.Screen_Inner_Rim_And_Bottom_1.geometry} material={materials.Screen_Inner_Rim_And_Back} />
