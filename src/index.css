@@ -33,6 +33,11 @@ h1 {
   align-items: center;
 }
 
+#three-canvas {
+  width: 100%;
+  height: 100%;
+}
+
 #equals {
   width: calc(20% * 3);
 }
