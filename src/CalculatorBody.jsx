@@ -7,16 +7,17 @@ Files: calculator_body.glb [56.37KB] > calculator_body-transformed.glb [6.51KB] 
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Model(props) {
-  const { nodes, materials } = useGLTF('/3D_Assets/calculator_body-transformed.glb')
+export default function CalculatorBody(props) {
+  console.log('hehe')
+  const { nodes, materials } = useGLTF('./3D_Assets/calculator_body-transformed.glb')
   return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.Cube008.geometry} material={materials.Calculator_Body} />
-      <mesh geometry={nodes.Cube008_1.geometry} material={materials['Screen.002']} />
-      <mesh geometry={nodes.Mesh_2001.geometry} material={materials.Screen_Inner_Rim_And_Back} />
-      <mesh geometry={nodes.Mesh_2001_1.geometry} material={materials.Calculator_Body} />
+    <group {...props} dispose={null} position={[0, 0, 0]}>
+      <mesh geometry={nodes.Body.geometry} material={materials.Calculator_Body} />
+      <mesh geometry={nodes.Screen.geometry} material={materials.Screen} />
+      <mesh geometry={nodes.Screen_Inner_Rim_And_Bottom_1.geometry} material={materials.Screen_Inner_Rim_And_Back} />
+      <mesh geometry={nodes.Screen_Inner_Rim_And_Bottom_2.geometry} material={materials.Calculator_Body} />
     </group>
   )
 }
 
-useGLTF.preload('/3D_Assets/calculator_body-transformed.glb')
+useGLTF.preload('./3D_Assets/calculator_body-transformed.glb')

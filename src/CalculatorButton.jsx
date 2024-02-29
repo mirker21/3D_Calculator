@@ -7,20 +7,20 @@ Files: calculator_button.glb [9.04KB] > calculator_button-transformed.glb [3.38K
 import React, { useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 
-export function Model(props) {
+export default function CalculatorButton(props) {
   const group = useRef()
-  const { nodes, materials, animations } = useGLTF('/3D_Assets/calculator_button-transformed.glb')
+  const { nodes, materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
   const { actions } = useAnimations(animations, group)
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
         <group name="Button">
-          <mesh name="Tile_Body001" geometry={nodes.Tile_Body001.geometry} material={materials.Button_Body} />
-          <mesh name="Tile_Body001_1" geometry={nodes.Tile_Body001_1.geometry} material={materials.Pressed_Button_Indicator} />
+          <mesh name="Button_1" geometry={nodes.Button_1.geometry} material={materials.Button_Body} />
+          <mesh name="Button_2" geometry={nodes.Button_2.geometry} material={materials.Pressed_Button_Indicator} />
         </group>
       </group>
     </group>
   )
 }
 
-useGLTF.preload('/3D_Assets/calculator_button-transformed.glb')
+useGLTF.preload('./3D_Assets/calculator_button-transformed.glb')

@@ -4,8 +4,8 @@ import CalculatorButton from './CalculatorButton';
 export default function Calculator() {
     return (
         <group>
-            <CalculatorButton />
             <CalculatorBody />
+            <CalculatorButton />
         </group>
     )
 }
