@@ -51,6 +51,12 @@ h1 {
   margin: 5px;
 }
 
+p {
+  color: #003986;
+  pointer-events: none;
+  font-size: 12px;
+}
+
 #first-row {
   width: 100%;
 }

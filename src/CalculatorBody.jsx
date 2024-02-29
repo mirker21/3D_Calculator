@@ -8,7 +8,6 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export default function CalculatorBody(props) {
-  console.log('hehe')
   const { nodes, materials } = useGLTF('./3D_Assets/calculator_body-transformed.glb')
   return (
     <group {...props} dispose={null} position={[0, 0, 0]}>

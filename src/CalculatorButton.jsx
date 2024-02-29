@@ -4,19 +4,63 @@ Command: npx gltfjsx@6.2.12 calculator_button.glb --transform --keepmeshes --kee
 Files: calculator_button.glb [9.04KB] > calculator_button-transformed.glb [3.38KB] (63%)
 */
 
-import React, { useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import React, { createContext, useContext, useMemo, useRef } from 'react'
+import { useGLTF, useAnimations, Merged, Html } from '@react-three/drei'
+import { FrontSide, MeshStandardMaterial } from 'three';
+import * as THREE from 'three'
 
-export default function CalculatorButton(props) {
-  const group = useRef()
-  const { nodes, materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
-  const { actions } = useAnimations(animations, group)
+const context = createContext();
+
+export function Instances({children}) {
+  const {nodes} = useGLTF('./3D_Assets/calculator_button-transformed.glb')
+
+  const instances = useMemo(
+    () => ({
+      ButtonRim: nodes.Button_1,
+      ButtonBody: nodes.Button_2
+    }), 
+    [nodes]
+  )
+
   return (
-    <group ref={group} {...props} dispose={null}>
+		<group dispose={null}>
+			<Merged meshes={instances} position={[0, 0, .43]}>
+				{(instances) => <context.Provider value={instances} children={children} />}
+			</Merged>
+		</group>
+  )
+}
+
+export function CalculatorButton({id, char, position, rotation, scale}) {
+  const group = useRef()
+  const instances = useContext(context)
+  const { materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
+  const { actions } = useAnimations(animations, group)
+
+  const symbolMaterial = new MeshStandardMaterial({
+    color: new THREE.Color( 0x003986 ),
+    side: THREE.DoubleSide,
+  })
+
+  const symbolPosition = new THREE.Vector3(0, .697, 0)
+
+  return (
+    <group ref={group} dispose={null} position={position} rotation={rotation} scale={scale}>
+      <Html
+        transform
+        position={symbolPosition}
+        rotation={char === "←" ? [-Math.PI/2, 0, -Math.PI/2] : [-Math.PI/2, 0, 0]}
+        scale={char === "←" ? [1, .75, 1] : [1, 1, 1]}
+        material={symbolMaterial}
+        occlude
+        // color="#003986"
+      >
+        <p>{char}</p>
+      </Html>
       <group name="Scene">
         <group name="Button">
-          <mesh name="Button_1" geometry={nodes.Button_1.geometry} material={materials.Button_Body} />
-          <mesh name="Button_2" geometry={nodes.Button_2.geometry} material={materials.Pressed_Button_Indicator} />
+          <instances.ButtonRim />
+          <instances.ButtonBody />
         </group>
       </group>
     </group>
