@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.2.12 calculator_button.glb --transform --keepmeshes --kee
 Files: calculator_button.glb [9.04KB] > calculator_button-transformed.glb [3.38KB] (63%)
 */
 
-import React, { createContext, useContext, useMemo, useRef } from 'react'
+import React, { createContext, useContext, useMemo, useRef, useEffect, useState } from 'react'
 import { useGLTF, useAnimations, Merged, Html } from '@react-three/drei'
 import { FrontSide, MeshStandardMaterial } from 'three';
 import * as THREE from 'three'
@@ -31,10 +31,11 @@ export function Instances({children}) {
   )
 }
 
-export function CalculatorButton({id, char, position, rotation, scale}) {
+export function CalculatorButton({id, char, position, rotation, scale, currentButtonPressed, setCurrentButtonPressed}) {
+  const [active, setActive] = useState(false);
   const group = useRef()
   const instances = useContext(context)
-  const { materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
+  const { scene, materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
   const { actions } = useAnimations(animations, group)
 
   const symbolMaterial = new MeshStandardMaterial({
@@ -42,23 +43,47 @@ export function CalculatorButton({id, char, position, rotation, scale}) {
     side: THREE.DoubleSide,
   })
 
+  let mixer = new THREE.AnimationMixer(scene);
+
   const symbolPosition = new THREE.Vector3(0, .697, 0)
 
+  useEffect(() => {
+    //mixer or gsap?
+    // const action = mixer.clipAction(actions['Button_Press']);
+    // action.setLoop(THREE.LoopOnce);
+    // action.play();
+
+    actions['Button_Press'].reset()
+    actions['Button_Press'].setLoop(THREE.LoopOnce);
+    actions['Button_Press'].play()
+
+    return () => {}
+  }, [active]);
+
   return (
-    <group ref={group} dispose={null} position={position} rotation={rotation} scale={scale}>
-      <Html
-        transform
-        position={symbolPosition}
-        rotation={char === "←" ? [-Math.PI/2, 0, -Math.PI/2] : [-Math.PI/2, 0, 0]}
-        scale={char === "←" ? [1, .75, 1] : [1, 1, 1]}
-        material={symbolMaterial}
-        occlude
-        // color="#003986"
-      >
-        <p>{char}</p>
-      </Html>
+    <group 
+      ref={group} 
+      dispose={null} 
+      position={position} 
+      rotation={rotation} 
+      scale={scale} 
+      onClick={(event) => (event.stopPropagation(), setActive(!active))}
+    >
+
       <group name="Scene">
         <group name="Button">
+          <Html
+            transform
+            position={symbolPosition}
+            rotation={char === "←" ? [-Math.PI/2, 0, -Math.PI/2] : [-Math.PI/2, 0, 0]}
+            scale={char === "←" ? [1, .75, 1] : [1, 1, 1]}
+            material={symbolMaterial}
+            occlude
+            // color="#003986"
+          >
+            <p>{char}</p>
+          </Html>
+
           <instances.ButtonRim />
           <instances.ButtonBody />
         </group>

@@ -11,17 +11,17 @@ import * as THREE from 'three';
 export default function CalculatorBody(props) {
   const { nodes, materials } = useGLTF('./3D_Assets/calculator_body-transformed.glb')
 
-  const displayPosition = new THREE.Vector3(0, .697, -3)
+  const displayPosition = new THREE.Vector3(-.88, .2, -3.08)
   return (
     <group {...props} dispose={null} position={[0, 0, 0]}>
       <Html
         position={displayPosition}
         rotation={[-Math.PI/2, 0, 0]}
+        scale={[.75, 1.2, 1]}
         transform
         occlude
-        // color="#003986"
       >
-        <h2>0</h2>
+        <h2>0123456789ldsfjadsfklfhaf;kdsjflsajlkfsd</h2>
       </Html>
       <mesh geometry={nodes.Body.geometry} material={materials.Calculator_Body} />
       <mesh geometry={nodes.Screen.geometry} material={materials.Screen} />

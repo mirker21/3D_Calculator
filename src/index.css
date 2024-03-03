@@ -38,6 +38,18 @@ h1 {
   height: 100%;
 }
 
+h2 {
+  font-family: "Silkscreen", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: #003986;
+  font-size: 23px;
+  text-align: left;
+  max-width: 230px;
+  word-break: break-all;
+  line-height: 20px;
+}
+
 #equals {
   width: calc(20% * 3);
 }

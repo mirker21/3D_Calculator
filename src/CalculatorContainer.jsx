@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { OrbitControls, PerspectiveCamera, Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Calculator from "./Calculator";
@@ -338,7 +338,9 @@ export default function CalculatorContainer() {
                 <OrbitControls />
                 <ambientLight intensity={2} color="#FFFED0" />
                 <directionalLight position={[0, 0, 10]} intensity={2} color="#FFFED0" />
-                <Calculator />
+                <Suspense fallback={null}>
+                    <Calculator />
+                </Suspense>
             </Canvas>
             {message}
             <section id="first-row">

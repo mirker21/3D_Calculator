@@ -1,10 +1,12 @@
 import * as THREE from 'three';
-
+import { useState } from 'react';
 import CalculatorBody from './CalculatorBody';
 import { Instances, CalculatorButton } from './CalculatorButton';
 
 
 export default function Calculator() {
+    const[currentButtonPressed, setCurrentButtonPressed] = useState('')
+    const [active, setActive] = useState(false)
 
     const buttons = [
         ['MR', 'M+', 'M-', 'MC', 'CE'],
@@ -56,11 +58,13 @@ export default function Calculator() {
                 position={button['position']}
                 rotation={[0, 0 ,0]}
                 scale={[1, 1, 1]}
+                currentButtonPressed={currentButtonPressed}
+                setCurrentButtonPressed={setCurrentButtonPressed}
+                active={active}
+                setActive={setActive}
             />
         )
-    })
-    
-    console.log(buttonsDisplay)    
+    }) 
 
     return (
         <group>
@@ -72,6 +76,8 @@ export default function Calculator() {
                     position={[2.55, 0, -3.9]}
                     rotation={[0, Math.PI/2, 0]}
                     scale={[1.8, 1, 1.2]}
+                    currentButtonPressed={currentButtonPressed}
+                    setCurrentButtonPressed={setCurrentButtonPressed}
                 />
                 {
                     buttonsDisplay.map(button =>
