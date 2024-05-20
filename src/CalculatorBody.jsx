@@ -11,7 +11,9 @@ import * as THREE from 'three';
 export default function CalculatorBody(props) {
   const { nodes, materials } = useGLTF('./3D_Assets/calculator_body-transformed.glb')
 
-  const displayPosition = new THREE.Vector3(-.88, .2, -3.08)
+  console.log(props.input)
+
+  const displayPosition = new THREE.Vector3(-.78, .2, -3.13)
   return (
     <group {...props} dispose={null} position={[0, 0, 0]}>
       <Html
@@ -21,7 +23,7 @@ export default function CalculatorBody(props) {
         transform
         occlude
       >
-        <h2>0123456789ldsfjadsfklfhaf;kdsjflsajlkfsd</h2>
+        <h2 id={props.input.length > 39 ? 'smaller-input-font' : ''}>{props.message.length > 0 ? props.message : props.input}</h2>
       </Html>
       <mesh geometry={nodes.Body.geometry} material={materials.Calculator_Body} />
       <mesh geometry={nodes.Screen.geometry} material={materials.Screen} />

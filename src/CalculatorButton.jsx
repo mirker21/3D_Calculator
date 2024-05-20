@@ -6,7 +6,7 @@ Files: calculator_button.glb [9.04KB] > calculator_button-transformed.glb [3.38K
 
 import React, { createContext, useContext, useMemo, useRef, useEffect, useState } from 'react'
 import { useGLTF, useAnimations, Merged, Html } from '@react-three/drei'
-import { FrontSide, MeshStandardMaterial } from 'three';
+import { MeshStandardMaterial } from 'three';
 import * as THREE from 'three'
 
 const context = createContext();
@@ -31,11 +31,12 @@ export function Instances({children}) {
   )
 }
 
-export function CalculatorButton({id, char, position, rotation, scale, currentButtonPressed, setCurrentButtonPressed}) {
+export function CalculatorButton({id, char, position, rotation, scale, handleButtonClick}) {
   const [active, setActive] = useState(false);
   const group = useRef()
   const instances = useContext(context)
   const { scene, materials, animations } = useGLTF('./3D_Assets/calculator_button-transformed.glb')
+  console.log(materials)
   const { actions } = useAnimations(animations, group)
 
   const symbolMaterial = new MeshStandardMaterial({
@@ -48,10 +49,6 @@ export function CalculatorButton({id, char, position, rotation, scale, currentBu
   const symbolPosition = new THREE.Vector3(0, .697, 0)
 
   useEffect(() => {
-    //mixer or gsap?
-    // const action = mixer.clipAction(actions['Button_Press']);
-    // action.setLoop(THREE.LoopOnce);
-    // action.play();
 
     actions['Button_Press'].reset()
     actions['Button_Press'].setLoop(THREE.LoopOnce);
@@ -67,9 +64,8 @@ export function CalculatorButton({id, char, position, rotation, scale, currentBu
       position={position} 
       rotation={rotation} 
       scale={scale} 
-      onClick={(event) => (event.stopPropagation(), setActive(!active))}
+      onClick={(event) => (event.stopPropagation(), setActive(!active), handleButtonClick(char))}
     >
-
       <group name="Scene">
         <group name="Button">
           <Html
@@ -79,7 +75,6 @@ export function CalculatorButton({id, char, position, rotation, scale, currentBu
             scale={char === "←" ? [1, .75, 1] : [1, 1, 1]}
             material={symbolMaterial}
             occlude
-            // color="#003986"
           >
             <p>{char}</p>
           </Html>
